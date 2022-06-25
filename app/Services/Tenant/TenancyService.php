@@ -17,7 +17,7 @@ class TenancyService implements TenancyServiceInterface {
             /**
              * Create domain
              */
-            $tenant->domain()->create(['domain' => $domainName]);
+            $tenant->domains()->create(['domain' => $domainName.'.'.env('TENANCY_CENTRAL_DOMAIN')]);
         });
     }
 }

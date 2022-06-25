@@ -4,6 +4,8 @@ namespace App\Traits;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Validator;
+use Prettus\Validator\Exceptions\ValidatorException;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 trait ApiResponse
@@ -43,5 +45,21 @@ trait ApiResponse
             ],
             'data' => $message
         ],$code);
+    }
+
+    /**
+     * Error response validator.
+     *
+     * @param \Illuminate\Contracts\Validation\Validator $validator
+     * @return JsonResponse
+     */
+    protected function formatValidationErrors(\Illuminate\Contracts\Validation\Validator $validator): JsonResponse
+    {
+        return new JsonResponse([
+            'status' => [
+                'code'    => 1,
+                'message' => $validator->getMessageBag()
+            ]
+        ], 422);
     }
 }

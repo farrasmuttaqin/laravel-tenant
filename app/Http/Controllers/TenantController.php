@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Services\Tenant\TenancyServiceInterface;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 
 class TenantController extends Controller
@@ -25,23 +26,27 @@ class TenantController extends Controller
     /**
      * @param Request $request
      * @return JsonResponse
-     * @throws ValidationException
      */
     public function createDomain(Request $request): JsonResponse
     {
         /**
          * Validate create request tenant
          */
-        $this->validate($request, [
-            'name' => 'exists:'.env('DB_CONNECTION').'.domains|required',
+
+        $validator = Validator::make($request->all(), [
+            'domain' => 'required',
         ]);
 
+        if ($validator->fails()) {
+            return $this->formatValidationErrors($validator);
+        }
 
         try {
+
             /**
              * Create domain
              */
-            $tenant = $this->tenantServiceInterface->createDomain($request->name);
+            $tenant = $this->tenantServiceInterface->createDomain($request->domain);
 
             return $this->successResponse($tenant, 'Success Create Tenant');
         } catch (\Exception $e) {
