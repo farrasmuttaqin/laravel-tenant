@@ -34,6 +34,17 @@
                     </x-slot>
 
                     <x-slot name="content">
+                        <!-- Register new tenant -->
+                        <form method="GET" action="{{ route('register-new-tenant') }}">
+                            @csrf
+
+                            <x-dropdown-link :href="route('logout')"
+                                             onclick="event.preventDefault();
+                                                this.closest('form').submit();">
+                                {{ __('Register new tenant') }}
+                            </x-dropdown-link>
+                        </form>
+
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
