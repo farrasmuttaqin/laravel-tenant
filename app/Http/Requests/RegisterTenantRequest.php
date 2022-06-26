@@ -27,7 +27,7 @@ class RegisterTenantRequest extends FormRequest
         return [
             'domain' => 'required|string|max:20|unique:domains',
             'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255|unique:users',
+            'email' => 'required|email|max:255',
             'phone_number' => 'required|string|min:9|max:14',
             'password' => ['required', 'confirmed', Password::defaults()],
         ];
