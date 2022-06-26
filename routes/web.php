@@ -29,7 +29,6 @@ Route::middleware(['auth'])->group(function() {
     /**
      * register tenant
      */
-
     Route::
         get('/register-new-tenant', [\App\Http\Controllers\RegisteredTenantController::class, 'create'])
         ->name('register-new-tenant');

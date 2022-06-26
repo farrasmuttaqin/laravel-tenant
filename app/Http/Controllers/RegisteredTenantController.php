@@ -44,7 +44,6 @@ class RegisteredTenantController extends Controller
              * Create tenant with domain
              */
             $tenant = $this->tenantServiceInterface->createDomainWithTenantData($request->validated());
-
             return redirect(tenant_route($tenant->domains->first()->domain, 'tenant.login'));
         } catch (\Exception $e) {
             return Redirect::back()->withErrors($e->getMessage());
