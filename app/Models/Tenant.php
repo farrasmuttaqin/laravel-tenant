@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Hash;
 use Stancl\Tenancy\Contracts\TenantWithDatabase;
 use Stancl\Tenancy\Database\Concerns\HasDatabase;
 use Stancl\Tenancy\Database\Concerns\HasDomains;
@@ -16,4 +17,11 @@ class Tenant extends ModelsTenant implements TenantWithDatabase
     use HasDatabase;
 
     use HasDomains;
+
+    public static function booted()
+    {
+        static::creating(function ($tenant){
+            $tenant->password = bcrypt($tenant->password);
+        });
+    }
 }
