@@ -16,3 +16,27 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth'])->name('dashboard');
+
+Route::middleware(['auth'])->group(function() {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+
+    /**
+     * register tenant
+     */
+
+    Route::
+        get('/register-new-tenant', [\App\Http\Controllers\RegisteredTenantController::class, 'create'])
+        ->name('register-new-tenant');
+
+    Route::
+        post('/register-tenant', [\App\Http\Controllers\RegisteredTenantController::class, 'store'])
+        ->name('register-new-tenant-post');;
+});
+
+require __DIR__.'/auth.php';
